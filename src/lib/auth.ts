@@ -1,4 +1,4 @@
-import {NextAuthOptions, User} from "next-auth";
+import {NextAuthOptions} from "next-auth";
 import {UpstashRedisAdapter} from "@next-auth/upstash-redis-adapter";
 import {db} from "@/lib/db";
 import GoogleProvider from "next-auth/providers/google";
@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({token, user}) {
-            const dbUser = (await  db.get(`user:${token.id}`)) as User | null;
+            const dbUser = (await db.get(`user:${token.id}`)) as User | null;
             
             if (!dbUser) {
                 token.id = user!.id;
@@ -60,6 +60,6 @@ export const authOptions: NextAuthOptions = {
         },
         redirect() {
             return "/dashboard"
-        }
+        },
     },
 }
